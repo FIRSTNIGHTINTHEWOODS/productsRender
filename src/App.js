@@ -11,32 +11,40 @@ class App extends Component {
       super(props)
       this.state = {
         data:[],
-        staticData: [],
         choosedCategory:'', 
+        categoriesArr:[]
       }
        this.clickedCategory = this.clickedCategory.bind(this);
-    }
-    clickedCategory(cat){ 
+    
 
+    }
+    deleteDuplicatesCategories (arr){
+      return arr.filter((item,key,array) => {
+         return array.indexOf(item) === key;
+      })
+    }
+    clickedCategory(a){ 
     this.setState({
-        choosedCategory: cat,
+        choosedCategory: a
     })
-     console.log(this.state.choosedCategory);
     }  
     componentDidMount(){
       fetch('http://demo.omnigon.com/pgatdemo1/mikeg/products.json')
       .then((Response)=>Response.json())
       .then((findresponse) => {
+       const categoriesList = findresponse.products.map((item,key)=> {
+            return item.bsr_category;
+        })
         this.setState({
           data: findresponse.products,
-          staticData: findresponse.products,
+          categoriesArr:   this.deleteDuplicatesCategories(categoriesList)
+            })
         }) 
-      })
     }
     render() {
         return ( 
          <div>
-           <Categories clickedCategory={this.clickedCategory} items={this.state.data} />
+           <Categories items={this.state.categoriesArr}   clickedCategory={this.clickedCategory}/>
            <Products items={this.state.data}/>
         </div>
         )
