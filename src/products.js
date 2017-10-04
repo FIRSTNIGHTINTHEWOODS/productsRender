@@ -1,17 +1,6 @@
     import React, { Component } from 'react';
 
-
-
 class Products extends Component {
-
-
-    // filterList(e){
-    //   this.state.data = this.state.staticData;
-    //   var filteredList = this.state.data.filter(function(item,i,arr){
-    //       return item.name.toLowerCase().search(e.target.value.toLowerCase())!== -1;
-    //   });
-    //   this.setState({data: filteredList});
-    // }      <input type="text" onChange={this.filterList} />
 
     render() {
         return (   
@@ -34,5 +23,5 @@ class Products extends Component {
         )
     }
   }
-
+  
   export default Products;

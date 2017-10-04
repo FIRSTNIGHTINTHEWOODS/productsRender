@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Categories from './Categories';
 import Products from './products';
-
+import { Router, Route, hashHistory,browserHistory } from 'react-router';
 
 
 class App extends Component {
@@ -12,10 +12,12 @@ class App extends Component {
       this.state = {
         data:[],
         choosedCategory:'', 
-        categoriesArr:[]
+        categoriesArr:[],
+
       }
+       this.state.choosedCategory = this.props.params.category;
        this.clickedCategory = this.clickedCategory.bind(this);
-    
+
 
     }
     deleteDuplicatesCategories (arr){
@@ -25,14 +27,14 @@ class App extends Component {
     }
     clickedCategory(a){ 
     this.setState({
-        choosedCategory: a
+        choosedCategory: a.replace(/\s/g,'').replace('&','').replace(',','')
     })
     }  
     componentDidMount(){
       fetch('http://demo.omnigon.com/pgatdemo1/mikeg/products.json')
       .then((Response)=>Response.json())
       .then((findresponse) => {
-       const categoriesList = findresponse.products.map((item,key)=> {
+       var categoriesList = findresponse.products.map((item,key)=> {
             return item.bsr_category;
         })
         this.setState({
@@ -42,9 +44,12 @@ class App extends Component {
         }) 
     }
     render() {
+      console.log(this.state.choosedCategory);
+      console.log(this.props.params.category);
+
         return ( 
          <div>
-           <Categories items={this.state.categoriesArr}   clickedCategory={this.clickedCategory}/>
+           <Categories items={this.state.categoriesArr}  linkTo={this.state.choosedCategory}  clickedCategory={this.clickedCategory}/>
            <Products items={this.state.data}/>
         </div>
         )
