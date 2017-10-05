@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Router, Route, hashHistory,browserHistory } from 'react-router';
 import { Link } from 'react-router';
 class Categories extends Component{
     render() {

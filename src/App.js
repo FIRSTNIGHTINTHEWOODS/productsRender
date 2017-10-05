@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Categories from './Categories';
 import Products from './products';
+import Pagination from './pagination';
 
 class App extends Component {
     constructor(props) {
@@ -11,17 +12,19 @@ class App extends Component {
             choosedCategory:'', 
             categoriesArr:[],
             choosedCategoryFull: '',
-            dataTemp: []
+            dataTemp: [],
+            pages: []
         };
         this.onCategoryClick = this.onCategoryClick.bind(this);
-        this.state.choosedCategory = this.props.params.category;
-    }
+        this.state.choosedCategory = this.props.params.category;  // to fix
 
+    }
     render() {
         return ( 
          <div>
            <Categories  linkTo={this.state.choosedCategory} onClickProp={this.onCategoryClick} items={this.state.categoriesArr}  />
-           <Products items={this.state.dataTemp}/>
+           <Products items={this.state.dataTemp} />
+           <Pagination items={this.state.pages}  />
         </div>
         )
     }
@@ -37,26 +40,46 @@ class App extends Component {
                 categoriesArr: this.getUniqueCategories(categoriesList)
             });
         }); 
+    } 
+    replacer(arr){
+        return arr.replace(/\s/g,'').replace('&','').replace(',','');
     }
-    onCategoryClick(a){ 
+    getQuantityPages(){
+        let counterOfPages = this.state.dataTemp.length/10;
+        let tempArray = [];
+        for( let i=1; i<counterOfPages+1; i++){
+            tempArray.push(i);
+        }
         this.setState({
-            choosedCategory: a.replace(/\s/g,'').replace('&','').replace(',','')
+            pages: tempArray
         });
-          this.getForViewCategories();
-    }     
+    }
+
     getUniqueCategories (arr){
         return arr.filter((item,key,array) => {
             return array.indexOf(item) === key;
         });
     }
-    getForViewCategories(){
+
+    setViewCategories(){
         this.setState({
-            dataTemp: this.state.data.filter((item,key) => {
-            if( item.bsr_category.replace(/\s/g,'').replace('&','').replace(',','') == this.state.choosedCategory)
-                return item;
-            })
+            dataTemp: this.getTempData()
         });
     }
+    getTempData() {
+        return this.state.data.filter((item,key) => {
+          if( this.replacer(item.bsr_category) == this.state.choosedCategory) {
+            return item;
+          }
+        });
+    }
+    onCategoryClick(a){ 
+        this.setState({
+            choosedCategory: this.replacer(a)
+        });
+        this.setViewCategories();
+        this.getQuantityPages();
+    }    
 
 
 }
