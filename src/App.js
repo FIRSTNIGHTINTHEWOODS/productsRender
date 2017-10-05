@@ -34,8 +34,8 @@ class App extends Component {
             this.setState({
                 data: findresponse.products,
                 categoriesArr:   this.getUniqueCategories(categoriesList)
-            })
-        }) 
+            });
+        }); 
     }
     onCategoryClick(a){ 
         this.setState({
@@ -48,15 +48,14 @@ class App extends Component {
         });
     }
     getForViewCategories(){
-        console.log('dsds');
         this.setState({
             data: this.state.data.map((item,key) => {
                 return this.state.data.filter((product,index) => {
                     if (item.bsr_category == this.state.choosedCategory)
                     return item;
-                })
+                });
             })
-        })
+        });
     }
 
 
