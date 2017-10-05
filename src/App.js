@@ -10,17 +10,18 @@ class App extends Component {
             data:[],
             choosedCategory:'', 
             categoriesArr:[],
-            choosedCategoryFull: ''
+            choosedCategoryFull: '',
+            dataTemp: []
         };
-        this.state.choosedCategory = this.props.params.category;
         this.onCategoryClick = this.onCategoryClick.bind(this);
+        this.state.choosedCategory = this.props.params.category;
     }
 
     render() {
         return ( 
          <div>
-           <Categories onClick={this.getForViewCategories} items={this.state.categoriesArr}  linkTo={this.state.choosedCategory}  onCategoryClick={this.onCategoryClick}/>
-           <Products items={this.state.data}/>
+           <Categories  linkTo={this.state.choosedCategory} onClickProp={this.onCategoryClick} items={this.state.categoriesArr}  />
+           <Products items={this.state.dataTemp}/>
         </div>
         )
     }
@@ -29,11 +30,11 @@ class App extends Component {
         .then(Response => Response.json())
         .then(findresponse => {
             const categoriesList = findresponse.products.map((item,key)=> {
-                  return item.bsr_category;
+                return item.bsr_category;
             });
             this.setState({
                 data: findresponse.products,
-                categoriesArr:   this.getUniqueCategories(categoriesList)
+                categoriesArr: this.getUniqueCategories(categoriesList)
             });
         }); 
     }
@@ -41,7 +42,8 @@ class App extends Component {
         this.setState({
             choosedCategory: a.replace(/\s/g,'').replace('&','').replace(',','')
         });
-    }      
+          this.getForViewCategories();
+    }     
     getUniqueCategories (arr){
         return arr.filter((item,key,array) => {
             return array.indexOf(item) === key;
@@ -49,11 +51,9 @@ class App extends Component {
     }
     getForViewCategories(){
         this.setState({
-            data: this.state.data.map((item,key) => {
-                return this.state.data.filter((product,index) => {
-                    if (item.bsr_category == this.state.choosedCategory)
-                    return item;
-                });
+            dataTemp: this.state.data.filter((item,key) => {
+            if( item.bsr_category.replace(/\s/g,'').replace('&','').replace(',','') == this.state.choosedCategory)
+                return item;
             })
         });
     }
