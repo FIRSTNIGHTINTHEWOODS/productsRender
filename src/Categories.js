@@ -4,9 +4,9 @@ class Categories extends Component{
     render() {
         return (
             this.props.items.map((item,key) =>
-            <Link key={key}  to={this.props.linkTo}>
-                <p onClick={() => this.props.onClickProp(item) }> {item} </p>
-            </Link> 			
+            
+                <p key={key} onClick={() => this.props.onClickProp(item) }><Link to={this.props.linkTo}> {item}  </Link></p>
+             			
             )
         )	
     }

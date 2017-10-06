@@ -8,9 +8,8 @@ import Products from './products';
 
 ReactDOM.render( 
     <Router history={browserHistory}>
-        <Route path="/" component={App}>
-            <IndexRoute component={Products} />
-		    <Route path=":category" component={Categories} />
+        <Route  path="/" component={App}>
+        	<Route path=":category" component={Products} />
 		</Route>
     </Router>
 , document.getElementById('root'));

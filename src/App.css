@@ -8,7 +8,13 @@ img{
   height: 500px;
 
 }
-
+.Pagination li{
+    list-style: none;
+    font-size: 20px;
+    float: left;
+    margin-left: 20px;
+    cursor: pointer;
+}
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }

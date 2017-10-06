@@ -4,7 +4,14 @@ class Pagination extends Component {
 
     render() {
         return  (
-            <p onClick={this.props.onClick}> { this.props.items.map(items => { return items }) } </p>
+            <ul className="Pagination">
+            {
+                this.props.items.map((item,key) =>
+                <li key={key} onClick={() => this.props.onClickProp(key+1)}> {item}  </li>
+                )
+            }
+            </ul>
+                          
         )                   
     }
 

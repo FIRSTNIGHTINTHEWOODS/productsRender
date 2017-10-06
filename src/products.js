@@ -7,7 +7,7 @@ class Products extends Component {
             {
                 this.props.items.map((item,key) =>
                 <div key={key} className="products">
-                    <img src={item.img}></img>
+                    <img alt={item.name} src={item.img}></img>
                     <ul>
                         <li name="price"><i>Price:</i> {item.price} $</li>
                         <li name="name"><i>Name:</i> {item.name} </li>
